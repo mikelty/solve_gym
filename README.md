@@ -4,6 +4,7 @@
 * currently i implemented monte carlo (some borrowed [here](https://github.com/ZhiqingXiao/rl-book)), various TD (SARSA family, Q-learning family), and bellman equations (linear programming, policy & value iterations). each implementation comes with a test example.
 * TODO
   * policy iteration can be shortened.
-  * add various plotters, but might not be necessary because stable baseline can take care of that.
   * add more complex algorithms like AC family, PG family, etc. along with example solutions.
   * perhaps change the API a bit so that it looks more like stable baseline's.
+  * there's a good NEAT library in Python and perhaps i'd reproduce it for a lot of the examples. (parameter tuning can be quite time consuming though)
+  * another general purpose algorithm like NEAT is MuZero, which is very effective at atari games and board games. so perhaps implement that too. (need a beefier machine)
