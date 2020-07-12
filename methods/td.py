@@ -12,7 +12,7 @@ class TD(RLAgent):
         self.gamma=gamma
         self.lr=lr
         self.eps=eps
-        self.q=None
+        self.q=np.zeros((env.nS,env.nA))
 
     def decide(self,state,train=False):
         #train using epsilon-greedy
@@ -251,23 +251,23 @@ if __name__=='__main__':
     env=bootstrap(name,print_more_info=state_visualization)
 
     agent=SARSA(env)
-    sarsa_agent=solve(agent,env,3000,300,100)
+    sarsa_agent=solve(agent,env,3000,100)
 
     pd.DataFrame(sarsa_agent.q)
     policy=np.argmax(sarsa_agent.q,axis=1)
     pd.DataFrame(policy)
 
     agent=ExpectedSARSA(env)
-    expected_sarsa_agent=solve(agent,env,5000,300,100)
+    expected_sarsa_agent=solve(agent,env,5000,100)
 
     agent=QLearning(env)
-    q_learning_agent=solve(agent,env,4000,300,100)
+    q_learning_agent=solve(agent,env,4000,100)
 
     agent=DoubleQLearning(env)
-    double_q_learning_agent=solve(agent,env,9000,300,100)
+    double_q_learning_agent=solve(agent,env,9000,100)
 
     agent=SARSALambda(env)
-    sarsa_lambda_agent=solve(agent,env,5000,300,100)
+    sarsa_lambda_agent=solve(agent,env,5000,100)
 
     name='MountainCar-v0'
 

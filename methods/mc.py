@@ -171,20 +171,20 @@ if __name__=='__main__':
 
     #exploratory monte carlo
     agent=MonteCarlo(env)
-    monte_carlo_agent=solve(agent,env,0,0,10_000)
+    monte_carlo_agent=solve(agent,env,0,10_000)
 
     #not exploratory monte carlo with soft policy (epsilon=0.1)
     agent=MonteCarlo(env,exploratory=False,eps=0.1)
-    monte_carlo_agent=solve(agent,env,0,0,10_000)
+    monte_carlo_agent=solve(agent,env,0,10_000)
 
     bespoke_policy=np.zeros((22,11,2,2))
     bespoke_policy[20:,:,:,0]=1#stop when my points are at or above 20
     bespoke_policy[:20,:,:,1]=1#hit when my points are below 20
-    evaluation=agent.eval_policy(bespoke_policy)
+    evaluation=agent.evaluate(bespoke_policy)
     print(f"evaluate bespoke policy by monte carlo:\n{evaluation}")
 
     agent=MonteCarloImportanceResampling(env)
-    monte_carlo_importance_resampling_agent=solve(agent,env,0,0,10_000)
+    monte_carlo_importance_resampling_agent=solve(agent,env,0,10_000)
 
     behavior_policy = np.ones_like(bespoke_policy) * 0.5
     evaluation=agent.evaluate(bespoke_policy, behavior_policy,500_000)

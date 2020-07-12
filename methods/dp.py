@@ -19,6 +19,7 @@ class DP(RLAgent):
         for a in range(self.env.nA):
             for p,n,r,d in self.env.P[s][a]:
                 q[a]+=p*(r+(1.-d)*v[n]*self.gamma)
+        return q
 
     def evaluate(self,policy):
         v=np.zeros(self.env.nS)
@@ -81,7 +82,7 @@ if __name__=='__main__':
     env=bootstrap(name,render=True)
 
     agent=PolicyIteration(env)
-    policy_iteration_agent=solve(agent,env,0,0,100)
+    policy_iteration_agent=solve(agent,env,0,100)
 
     agent=ValueIteration(env)
-    value_iteration_agent=solve(agent,env,0,0,100)
+    value_iteration_agent=solve(agent,env,0,100)
