@@ -1,5 +1,5 @@
 #TODO: add rounds parameter to policy and value iteration
-from utils import *
+from myutils import *
 import gym
 import numpy as np
 

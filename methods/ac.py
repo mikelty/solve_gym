@@ -3,7 +3,7 @@ import gym
 import numpy as np
 import scipy
 
-class Bellman(RLAgent):
+class AC(RLAgent):
     def __init__(self,env,gamma=1.):
         super().__init__(env=env)
         self.gamma=gamma

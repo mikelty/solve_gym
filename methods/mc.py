@@ -1,6 +1,6 @@
 from tqdm import tqdm
 from time import perf_counter
-from utils import *
+from myutils import *
 import gym
 import numpy as np
 
