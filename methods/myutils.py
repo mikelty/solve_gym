@@ -1,3 +1,5 @@
+import tensorflow as tf
+import keras
 from tqdm import tqdm
 from time import perf_counter
 import pandas as pd
@@ -92,8 +94,24 @@ def solve(agent,env,rep,test_rep):
     print(f"testing time: {perf_counter() - start}")
     return agent
 
+
+def build_network(input_size, hidden_sizes, output_size,
+                  activation=tf.nn.relu, output_activation=None,
+                  learning_rate=0.01):
+    model = keras.Sequential()
+    for layer, hidden_size in enumerate(hidden_sizes):
+        kwargs = dict(input_shape=(input_size,)) if not layer else {}
+        model.add(keras.layers.Dense(units=hidden_size,
+                                     activation=activation, **kwargs))
+    model.add(keras.layers.Dense(units=output_size,
+                                 activation=output_activation))
+    optimizer = tf.optimizers.Adam(lr=learning_rate)
+    model.compile(loss='mse', optimizer=optimizer)
+    return model
+
+
 class TileCoder:
-    #tile encoding to shrink q table size
+#tile encoding to shrink q table size
     def __init__(self,layers,features):
         self.layers=layers
         self.features=features

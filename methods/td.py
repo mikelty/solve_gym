@@ -131,8 +131,8 @@ class SARSALambdaTileEncoding(SARSATileEncoding):
     def __init__(self,env,layers=8,features=1893,
                  gamma=1.,lr=.03,eps=1e-3,lambd=.9):
         super().__init__(env=env,layers=layers,
-                        features=features,gamma=gamma,
-                        lr=lr,eps=eps)
+                         features=features,gamma=gamma,
+                         lr=lr,eps=eps)
         self.lambd=lambd
         #eligibility trace
         self.e=np.zeros(features)
@@ -150,7 +150,7 @@ class SARSALambdaTileEncoding(SARSATileEncoding):
             features=self.encode(s,a)
             self.e[features]=1.
         #update q-table weighted by trace
-            q1=r+self.gamma*self.get_q(s1,a1)
+        q1=r+self.gamma*self.get_q(s1,a1)
         err=q1-self.get_q(s,a)
         self.set_q(s,a,err)
         if done:
@@ -160,8 +160,8 @@ class SARSALambdaTileEncoding(SARSATileEncoding):
 class DQNReplayer:
     def __init__(self, capacity):
         self.memory = pd.DataFrame(index=range(capacity),
-                columns=['observation', 'action', 'reward',
-                'next_observation', 'done'])
+                                   columns=['observation', 'action', 'reward',
+                                            'next_observation', 'done'])
         self.i = 0
         self.count = 0
         self.capacity = capacity
@@ -178,32 +178,18 @@ class DQNReplayer:
 
 class DQNAgent:
     def __init__(self, env, net_kwargs={}, gamma=0.99, epsilon=0.001,
-             replayer_capacity=10000, batch_size=64):
+                 replayer_capacity=10000, batch_size=64):
         observation_dim = env.observation_space.shape[0]
         self.action_n = env.action_space.n
         self.gamma = gamma
         self.epsilon = epsilon
         self.batch_size = batch_size
         self.replayer = DQNReplayer(replayer_capacity)
-        self.evaluate_net = self.build_network(input_size=observation_dim,
-                output_size=self.action_n, **net_kwargs)
-        self.target_net = self.build_network(input_size=observation_dim,
-                output_size=self.action_n, **net_kwargs)
+        self.evaluate_net = build_network(input_size=observation_dim,
+                                               output_size=self.action_n, **net_kwargs)
+        self.target_net = build_network(input_size=observation_dim,
+                                             output_size=self.action_n, **net_kwargs)
         self.target_net.set_weights(self.evaluate_net.get_weights())
-
-    def build_network(self, input_size, hidden_sizes, output_size,
-                activation=tf.nn.relu, output_activation=None,
-                learning_rate=0.01):
-        model = keras.Sequential()
-        for layer, hidden_size in enumerate(hidden_sizes):
-            kwargs = dict(input_shape=(input_size,)) if not layer else {}
-            model.add(keras.layers.Dense(units=hidden_size,
-                    activation=activation, **kwargs))
-        model.add(keras.layers.Dense(units=output_size,
-                activation=output_activation))
-        optimizer = tf.optimizers.Adam(lr=learning_rate)
-        model.compile(loss='mse', optimizer=optimizer)
-        return model
 
     def learn(self, observation, action, reward, next_observation, next_action, done):
         self.replayer.store(observation, action, reward, next_observation, done)
