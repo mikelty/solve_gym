@@ -131,7 +131,6 @@ while True:  # Run until solved
 
         # Normalize
         returns = np.array(returns)
-        # don't understand why add eps
         returns = (returns - np.mean(returns)) / (np.std(returns) + eps)
         returns = returns.tolist()
 
