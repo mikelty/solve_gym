@@ -1,0 +1,6 @@
+ch. 13 - policy gradient
+    notes
+        action-value methods - learn the action value and use some simple principle to determine policy based on those action-values
+        parametrized policy methods - learn the policy directly, perhaps use action values to adjust the policy (policies)
+        theta is the policy's parameter as in pi(a|s,theta), and if a value function is used, w will be the value function's parameter v_hat(s,w)
+
